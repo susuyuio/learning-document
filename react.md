@@ -1,5 +1,7 @@
 # React
+
 ### `1. Basic knowledge`
+
 - 1个概念 —— 组件
 - 4个必须API
 - 单向数据流
@@ -7,15 +9,18 @@
 - Flux架构 —— 单向数据流（状态管理框架：Redux MobX）
 
 ### `2. Point`
+
 - 受控组件、 非受控组件
 - 单一职责原则（创建组件）
 - DRY原则（数据状态管理）
 
 ### `3. JSX`
+
 - 不是模版语言，是一种语法糖
 - 在JS代码中写HTML标记
 
 ### `4. 生命周期`
+
 - 三个阶段
     - Render
     - Pre-commit
@@ -55,22 +60,26 @@
     >c. 典型场景：性能优化
 
 ### `5. Virtual DOM`
+
 - 广度优先分层比较
 - 算法复杂度为O(n)
 - diff计算、key属性
 
 ### `6. 组件复用（设计模式）`
+
 - 高阶组件（复用计时器）
 - 函数作为子组件（选择不同颜色展示）
 
 ### `7. context API`
 
 ### `8. 使用脚手架创建React应用`
+
 - Create React App (simple)
 - Codesandbox (online)
 - Rekit (intact)
 
 ### `9. 打包部署（Webpack）`
+
 - ES6/JSX编译、整合资源（图片/Less/Sass）、优化代码体积
 - 注意事项
     - nodejs环境为production
@@ -78,6 +87,7 @@
     - 设置应用路径
 
 ### `10. Redux状态管理（通用独立状态管理框架）`
+
 - 让组件通信更容易
 - 特性
     - Single Source of truth
@@ -111,6 +121,7 @@
         - immer
 
 ### `11. React Router`
+
 - 三种实现方式
     - URL路径
     - hash路由
@@ -131,16 +142,19 @@
     - 获取 this.props.match.params
 
 ### `12. UI组件库`
+
 - Ant.Design 蚂蚁金服
 - Material UI 谷歌
 - Semantic UI
 
 ### `13. 使用Next.js创建同构应用`
+
 - 服务器端渲染
 - getInitialProps 
 - LazyLoad => dynamic(import('../component')
 
 ### `14. 使用Jest、Enzyme等工具进行单元测试`
+
 - 涉及工具
     - Jest: Facebook开源JS单元测试框架
     - JS DOM: 浏览器环境的NodeJS模拟
@@ -150,10 +164,70 @@
     - istanbul: 单元测试覆盖率
 
 ### `15. 常用开发调试工具`
+
 - ESLint 语法风格检查
 - Prettier 格式化代码工具
 - React DevTool
 - Redux DevTool
 
 ### `16. Rekit`
+
 - 工具集和IDE
+
+### `17. 列表实现`
+
+``` 概要
+? 如何翻页
+? 如何进行内容搜索
+? 如何缓存数据
+? 何时进行页面刷新
+```
+
+- store设计
+    - listItems: Array(id1, id2, ...)
+    - keyword: String
+    - page: Number
+    - ById: Object({id1: item1, id2: item2})
+    - fetchListPending: Boolean
+    - fetchListError: Object
+    - listNeedReload: Boolean
+- ReactRouter设计
+    - 页面和关键字反应至URL中 /list/page?keyword=xxx
+- 刷新设计
+    - fetchListError 走出错逻辑
+    - listNeedReload 修改数据后更新，一般不读缓存
+    - page change 刷新
+    - 内容页要有能力自己获取数据
+
+### `18. Protals`
+
+- 16.3引入的新的API 将虚拟DOM映射到原生DOM节点，解决漂浮层dialog\tooltip问题
+
+### `19. 第三方JS库 D3.js`
+- ref属性可以获得原生DOM节点
+- 手动将组件状态更新到DOM节点
+- 组件销毁时移除原生节点DOM事件
+
+### `20. 拖放实现`
+
+``` 概要
+? 如何使用React鼠标事件系统
+? 如何判断拖放开始和结束
+? 如何实现拖放元素的位置移动
+? 拖放状态在组件中如何维护
+```
+
+- 操作
+    - mounseDown
+    ```
+    this.setState({
+        dragging: true,
+        startPageY: event.pageY,
+        currentPageY: event.pageY,
+        draggingIndex: index
+    });
+    ```
+    - mounseMove
+        - 增加透明全局遮盖层，监听拖动
+        - offsetY > lineHeight, 交换位置, draggingIndex++
+    - mounseUp reset staust
