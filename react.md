@@ -231,3 +231,21 @@
         - 增加透明全局遮盖层，监听拖动
         - offsetY > lineHeight, 交换位置, draggingIndex++
     - mounseUp reset staust
+
+### `21. 性能优化`
+- 按需加载
+    - Webpack import API
+    - react-loadable库实现React异步加载
+- 避免重复计算
+    - reselect 创建自动缓存的数据处理流程
+- 异步渲染
+    - 时间分片: DOM操作的优先级低于浏览器默认行为（鼠标点击等）, 保证流畅性
+        - 虚拟DOM的diff操作可以分片进行
+        - React新API: unstable_deferredUpdates
+        - Chrome新API: requestIdleCallback
+    - 渲染挂起: 虚拟DOM节点可以等待某个异步操作的完成, 并制定timeout, 之后才完成真正的渲染
+        - 新内置组件: Timeout
+        - 新内置组件: unstable_deferUpdate
+- 相关工具
+    - 使用React DevTool找到多余渲染
+    - 使用Chrome DevTool定位性能瓶颈
