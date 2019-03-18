@@ -1,9 +1,9 @@
-## 深入浅出Node.js 
+# 深入浅出Node.js
+
 _`高并发、高性能`_
-<p>
-    <a href="https://cnodejs.org/">[CNode开源技术社区]</a>
-    <a href="https://nodejs.org/en/">[Node官网]</a>
-</p>
+
+[[CNode开源技术社区]](https://cnodejs.org/)
+[[Node官网]](https://nodejs.org/en/)
 
 ---
 
@@ -33,8 +33,36 @@ _`高并发、高性能`_
         - Node面向网络且擅长并行I/O，能够有效地组织起更多的硬件资源，从而提供更好的服务
         - I/O密集的优势主要在于Node利用事件循环的处理能力，而不是启动每一个线程为每一个请求服务，资源占用极少
 
+## 模块机制
 
-#### `keyword`
+#### `CommonJS`模块规范
+
+- CommonJS对模块的定义主要分为：模块引用、模块定义、模块标识
+    1. 模块引用
+
+        ``` js
+        var math = require('math');
+        ```
+
+    2. 模块定义
+        - 在Node中，一个文件就是一个模块，将方法挂载在exports对象上作为属性即可定义导出的方式
+
+        ``` js
+        // math.js
+        exports.add = function() {...};
+
+        // program.js
+        var math = require('math');
+        exports.increament = function(val) {
+            return math.add(val, 1);
+        };
+        ```
+
+    3. 模块标识
+        - require()参数必须是符合小驼峰命名字符串，或者绝对路径、相对路径
+
+### `keyword`
+
 - web服务器
 - 浏览器中除了 **V8** 作为JS引擎外，还有 **Webkit布局引擎**
-- **Web Workers** 创建工作线程来进行计算，以解决JS大量计算阻塞UI渲染的问题。工作线程为了不阻塞祝线程，通过消息传递的方式来传递运行结果，使得工作线程不能访问到主线程中的UI
+- **Web Workers** 创建工作线程来进行计算，以解决JS大量计算阻塞UI渲染的问题。工作线程为了不阻塞主线程，通过消息传递的方式来传递运行结果，使得工作线程不能访问到主线程中的UI
