@@ -35,7 +35,7 @@ _`高并发、高性能`_
 
 ## 模块机制
 
-#### `CommonJS`模块规范
+### `CommonJS`模块规范
 
 - CommonJS对模块的定义主要分为：模块引用、模块定义、模块标识
     1. 模块引用
@@ -60,6 +60,71 @@ _`高并发、高性能`_
 
     3. 模块标识
         - require()参数必须是符合小驼峰命名字符串，或者绝对路径、相对路径
+
+### Node模块实现
+
+- Node中引入模块3步骤：
+    1. 路径分析
+    2. 文件定位
+    3. 编译执行
+- Node中模块分2类：
+    1. 核心模块（Node提供）
+    2. 文件模块（用户编写）
+- 优先从缓存加载
+    + 浏览器仅仅缓存文件，Node缓存的是编译和执行之后的对象
+- 核心模块 > 路径式的文件模块 > 自定义模块
+    + 路径分析、文件定位、编译执行
+    + 当前文件的路径越深，模块查找耗时会越多，这是自定义模块的加载速度最慢的原因
+- 核心模块
+    + 分为C/C++编写（src目录） 和 JS编写（lib目录） 两部分
+- 模块调用栈
+    + JS核心模块指责：
+        1. 作为C/C++内建模块的封装层和桥接层供文件模块调用
+        2. 纯粹的功能模块，不需要跟底层打交道，但十分重要
+
+#### 包与`NPM`
+
+- 在模块之外，包和NPM则是将模块联系起来的一种机制
+- CommonJS包规范：
+    1. 包结构（用于组织包中的各种文件）
+    2. 包描述文件（用于描述包的相关信息，供外部读取分析）
+- 常用功能
+    + 对于Node而言，NPM帮助完成了第三方模块的发布、安装和依赖
+    + 镜像源安装 
+    
+        `npm install undersore --registry=http://registry.url`
+    + 设置默认源
+    
+        `npm config set registry http://registry.url`
+    + 注册包创建账号
+    `npm adduser`
+    + 上传包
+    `npm publish \<folder\>`
+    + 管理包权限
+
+        `npm owner ls <package-name>`
+
+        `npm owner add <user> <package-name>`
+        
+        `npm owner rm <package-name>`
+    + 分析包
+        `npm ls`
+
+#### AMD、CMD规范
+
+- AMD规范是CommonJS模块规范的一个延伸
+- AMD需要在声明模块的时候指定所有的依赖，通过形参传递依赖到模块内容中
+- CMD支持动态引入
+``` js
+// AMD
+define(['dep1','dep2'], function(dep1, dep2){
+    return function () {};
+});
+//CMD
+define(function(require, exports, module){
+    // The module code goes here.
+});
+```
 
 ### `keyword`
 
