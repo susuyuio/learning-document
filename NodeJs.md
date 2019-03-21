@@ -138,6 +138,15 @@ define(function(require, exports, module){
         - 添加硬件是一种提升服务质量的方式，但不是唯一方式
         - Node 利用单线程，远离多线程死锁，状态同步等问题；利用异步I/O，让单线程远离阻塞，更好地利用CPU
         - 为了弥补单线程无法利用多核CPU的缺点，Node提供了类似前端浏览器中Web Worker的子进程，该子进程可以通过工作进程高效地利用CPU和I/O
+- 异步I/O实现现状
+    + 从实际效果而言，异步和非阻塞都达到了并行I/O的目的。但是从计算机内核I/O而言，异步/同步和阻塞/非阻塞实际上是两回事
+    + `轮询:` 应用程序需要重复调用I/O操作来确认是否完成
+- Node 的异步I/O
+    + 完成整个异步I/O环节的有：事件循环、观察者、请求对象
+- 非I/O的异步API
+    + setTimeOut()、setInterval()、setImmediate()、process.nextTick()
+    + **process.nextTick()** 中的回调函数执行的优先级高于 _setImmediate()_ ，因为观察者的检查优先级**idle** > I/O > _check_
+    + process.nextTick()在轮询中将**数组**中的回调函数全部执行完，setImmediate()执行**链表**中的一个回调函数  
 
 ### `keyword`
 
